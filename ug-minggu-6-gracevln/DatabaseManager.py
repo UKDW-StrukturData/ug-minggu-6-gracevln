@@ -18,24 +18,24 @@ class excelManager:
     def insertData(self,newData:dict,saveChange:bool=False):
         # kerjakan disini
         # clue cara insert row: df = pandas.concat([df, pandas.DataFrame([{"NIM":0,"Nama":"Udin","Nilai":1000}])], ignore_index=True)
-        df = self.__data
-        df = pandas.concat([df, pandas.DataFrame([{"NIM","Nama","Nilai"}])], ignore_index=True)
+        self.__data = pandas.concat([self.__data, pandas.DataFrame([newData])], ignore_index=True)
         if (saveChange): self.saveChange()
     
     def deleteData(self, targetedNim:str,saveChange:bool=False):
         # kerjakan disini
         # clue cara delete row: df.drop(indexBaris, inplace=True); contoh: df.drop(0,inplace=True)
-        if targetedNim in df:
-            indexBaris = df[df['NIM'] == targetedNim].index[0]
-            df = self.__data.drop(indexBaris, inplace=True)
-            return 'Data Sukses di Edit'
+        df=self.__data
+        row = self.getData("NIM", targetedNim)['Row'] 
+        df.drop(row, inplace=True)
         if (saveChange): self.saveChange()
     
     def editData(self, targetedNim:str, newData:dict,saveChange:bool=False) -> dict:
         # kerjakan disini
         # clue cara ganti value: df.at[indexBaris,namaKolom] = value; contoh: df.at[0,ID] = 1
-        if targetedNim in df:
-            df = self.__data.at[indexBaris,namaKolom] = newData
+        df = self.__data.columns
+        row = self.getData("NIM", targetedNim)['Row']
+        for data in df:
+            self.__data.at[row,data] = newData[data]
         if (saveChange): self.saveChange()
     
                     
